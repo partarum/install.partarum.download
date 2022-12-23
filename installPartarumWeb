@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+# Brief description of your script
+# Copyright 2022 bombisa
+
+function base() {
+
+  if [[ ! -d "$DIR" ]]; then
+    DIR="$PWD"
+  fi
+
+  source API/helper.sh
+}
+
+function checkRoot() {
+
+  if [[ "$(is_user_root)" == 1 ]];
+  then
+    echo "is_root"
+   return 1;
+  else
+    echo "is_not_root"
+   return 0;
+  fi
+}
+
+function loadPartarum() {
+
+  [[ ! -d GIT ]] && mkdir GIT
+
+  git clone https://github.com/partarum/partarum.git GIT/Partarum
+}
+
+function loadSystem() {
+  echo "Script Ende"
+}
+
+function loadSystemForPlesk() {
+  echo "init for Plesk" &> echoPlesk.txt
+
+  loadPartarum
+}
+
+function main() {
+
+  echo "$1" &> arg.txt
+
+  if [[ $1 -eq $((0x0001)) ]];
+  then
+    loadSystemForPlesk
+  else
+
+    base;
+    checkRoot;
+
+   # echo "main"
+    test=$?
+
+    if [[ $test -eq 1 ]];
+    then
+      echo "Und nun geht es weiter"
+      #cp PartarumSpace /usr/local/bin
+
+      # root  - installieren von:
+      #         - git
+      #         - composer
+
+    loadSystem
+
+
+    else
+      echo "Bitte führe den ersten Schritt als Root aus."
+
+      sudo bash installPartarumWeb
+    fi
+
+  fi
+}
+
+main "$@"
