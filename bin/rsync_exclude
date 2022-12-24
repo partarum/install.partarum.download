@@ -1,0 +1,17 @@
+- .github
+- .git
+- .gitmodules
+- temp
+- MODULAR.md
++ API
++ app
++ cli
++ config
++ Partarum
++ public
++ .htaccess
++ composer.json
++ composer.lock
++ index.php
++ LICENSE
++ README.md
