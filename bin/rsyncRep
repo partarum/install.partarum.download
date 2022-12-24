@@ -61,8 +61,6 @@ function main() {
     echo "wir gehen wieder zu userRep"
     cd userRep || exit
 
-    echo "add Folder und Files zu git:"
-
     git add --all API/
     git add --all app/
     git add --all cli/
@@ -82,7 +80,7 @@ function main() {
     git commit -m "$1"
 
     echo "Ausführen des Pushs"
-    git push -u
+    git push -u &> ../finishPush.txt
 
     #echo "Zeige Ordner public/assets aus dem Script heraus:"
     #ls -R public/assets
