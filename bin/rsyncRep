@@ -55,6 +55,9 @@ function main() {
     echo "Wir verlassen temp wieder"
     cd ..
 
+    mkdir backup
+    mv userRep/.git backup/.git
+
     echo "rsync von partarum-modular zu temp"
     rsync -a -p --exclude-from=rsync_exclude Partarum/. userRep &> logRsync.txt
 
