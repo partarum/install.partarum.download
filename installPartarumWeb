@@ -82,14 +82,14 @@ function main() {
 
   cd githolder || exit &> githolderDoesntExist.txt
 
-  cd userRep || exit &> userRepoDoesntExist.txt
+  #cd userRep || exit &> userRepoDoesntExist.txt
 
-  for file in *
-  do
-    [[ $file != ".git" ]] && rm -rf "$file"
-  done
+  #for file in *
+  #do
+   # [[ $file != ".git" ]] && rm -rf "$file"
+  #done
 
-  git status &> userRepStatus.txt
+  #git status &> userRepStatus.txt
 
   bash rsyncRep "firstUploadWithPartarum"
 
