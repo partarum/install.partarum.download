@@ -78,14 +78,14 @@ function main() {
 
   cd githolder || exit &> githolderDoesntExist.txt
 
-  cd userRepo || exit &> userRepoDoesntExist.txt
+  cd userRep || exit &> userRepoDoesntExist.txt
 
   for file in *
   do
     [[ $file != ".git" ]] && rm -rf "$file"
   done
 
-  git status &> userRepoStatus.txt
+  git status &> userRepStatus.txt
 
 }
 
