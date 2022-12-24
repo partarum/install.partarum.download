@@ -82,7 +82,7 @@ function main() {
     git add README.md
 
     echo "Hinzufügen der Commits:"
-    git commit -m "$1"
+    git commit -m "$1" &> ../finishCommit.txt
 
     git remote -v &> ../finishRemote.txt
 
@@ -92,6 +92,8 @@ function main() {
 
     echo "Ausführen des Pushs"
     git push -u &> ../finishPush.txt
+
+    git status &> ../finishStatusAfterPush.txt
 
     #echo "Zeige Ordner public/assets aus dem Script heraus:"
     #ls -R public/assets
