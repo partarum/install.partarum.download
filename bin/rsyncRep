@@ -79,6 +79,12 @@ function main() {
     echo "Hinzufügen der Commits:"
     git commit -m "$1"
 
+    git remote -v &> ../finishRemote.txt
+
+    git status &> ../finishStatus.txt
+
+    git branch &> ../finishBranch.txt
+
     echo "Ausführen des Pushs"
     git push -u &> ../finishPush.txt
 
