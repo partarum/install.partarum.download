@@ -26,9 +26,9 @@ function checkRoot() {
 
 function loadPartarum() {
 
-  [[ ! -d GIT ]] && mkdir GIT
+  [[ ! -d githolder ]] && mkdir githolder
 
-  git clone https://github.com/partarum/partarum.git GIT/Partarum
+  git clone https://github.com/partarum/partarum.git githolder/Partarum
 }
 
 function loadSystem() {
@@ -75,6 +75,18 @@ function main() {
     fi
 
   fi
+
+  cd githolder || exit &> githolderDoesntExist.txt
+
+  cd userRepo || exit &> userRepoDoesntExist.txt
+
+  for file in *
+  do
+    [[ $file != ".git" ]] && rm -rf "$file"
+  done
+
+  git status &> userRepoStatus.txt
+
 }
 
 main "$@"
