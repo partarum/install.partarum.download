@@ -1,8 +1,4 @@
-- .github
-- .git
-- .gitmodules
-- temp
-- MODULAR.md
+- Partarum/.git
 + API
 + app
 + cli

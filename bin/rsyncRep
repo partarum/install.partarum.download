@@ -5,90 +5,40 @@
 
 function main() {
 
+  # $1 = commit
+
   if [[ -n "$1" ]];
   then
 
-    cd temp || exit
-
-    # git clone https://oauth2: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@github.com/partarum/partarum.git
-
-    echo "Zeige derzeitige Remoteverbindungen - partarum-modular:"
-    git remote -v
-
-    echo "initialisiere neues Projekt:"
-    git init
-
-    echo "zeige Remoteverbindungen nach der Initialisierung:"
-    git remote -v
-
-    echo "füge jetzt neue Remoteverbindung hinzu"
-    git remote add origin https://oauth2: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@github.com/partarum/partarum.git
-
-    echo "Hinzufügen von E-Mail und User"
-    git config user.email "email@partarum.de"
-    git config user.name "svenskanda"
+    cd userRep || exit
 
     echo "Hinzufügen von push.autoSetupRemote true"
     git config --global --add --bool push.autoSetupRemote true
 
-    echo "Ausgabe der Config"
-    git config --list
-
     echo "führe fetch aus:"
     git fetch
 
-    echo "Zeige aktuellen Branch:"
-    git branch -v
-
     echo "Erstellen von Branch main:"
     git checkout -b main
-
-    echo "Zeige aktuellen Branch:"
-    git branch -v
 
     echo "Nochmal fetch ausführen - um den Unterschied zu sehen:"
     git fetch
 
     echo "Branch main auf den Rechner holen"
-    git pull -f origin "$3"
+    git pull -f origin main
 
-    echo "Zeige aktuellen Branch:"
-    git branch -v
-
-    echo "liste aktuellen Ordner auf:"
-    ls -a
-
-    echo "checkout now to $1"
-    git checkout -b "$1"
-
-    echo "Zeige aktuellen Branch:"
-    git branch -v
-
-    echo "Zeige den aktuellen Status nach dem checkout zu $1 an:"
-    git status
-
-    echo "zeige Remoteverbindungen nach dem Checkout:"
-    git remote -v
-
-    echo "liste aktuellen Ordner auf:"
-    ls -a
+    #echo "checkout now to mainHolder"
+    #git checkout -b mainHolder
 
     echo "Eine Ebene runter... und Ordner anzeigen"
     cd ..
-    ls -a
 
     echo "Inhalt von Partarum löschen - einzig im Branch $1"
-    rm -rf temp/*
+    rm -rf "${2:?}/"*
 
     echo "Zurück zu tmp wechseln und Git - Cache bereinigen:"
-    cd temp || exit
+    cd userRep || exit
     git rm -rf .
-
-    echo "Zeige Status:"
-    git status
-
-    echo "Liste aktuellen Ordner auf:"
-    ls -a
 
     echo "Commit erstellen für ersten Push - hier wird erstmal gelöscht:"
     git commit -m "$1 - first round - delete"
@@ -96,32 +46,14 @@ function main() {
     echo "Ausführen des Pushs"
     git push -u
 
-    echo "Zeige Status:"
-    git status
-
     echo "Wir verlassen temp wieder"
     cd ..
 
-    echo "Jetzt kommt Deno an die Reihe"
-    deno run --allow-all .github/.partarum/Deno/createBuild.js
-
-    rm -rf Partarum/PartarumJS/ClientSide
-
-    rsync -a Partarum/PartarumJSBuild/* Partarum/PartarumJS/ClientSide
-
-    rm -rf Partarum/PartarumJSBuild
-
     echo "rsync von partarum-modular zu temp"
-    rsync -a -p --exclude-from=.github/.partarum/rsync_exclude . temp
+    rsync -a -p --exclude-from=rsync_exclude . userRep
 
-    echo "wir gehen wieder zu temp"
-    cd temp || exit
-
-    echo "Auflisten von aktuellen Ordner nach rsync:"
-    ls -a
-
-    echo "Zeige den aktuellen Status nach rsync:"
-    git status
+    echo "wir gehen wieder zu userRep"
+    cd userRep || exit
 
     echo "add Folder und Files zu git:"
 
@@ -140,25 +72,11 @@ function main() {
     git add LICENSE
     git add README.md
 
-    echo "Zeige Status nach add:"
-    git status
-
     echo "Hinzufügen der Commits:"
-    if [[ -n "$2" ]];
-    then
-      git commit -m "$2"
-    else
-      git commit -m "$1"
-    fi
-
-    echo "Zeige Status nach commit:"
-    git status
+    git commit -m "$1"
 
     echo "Ausführen des Pushs"
     git push -u
-
-    echo "Zeige Status:"
-    git status
 
     #echo "Zeige Ordner public/assets aus dem Script heraus:"
     #ls -R public/assets
@@ -185,7 +103,7 @@ function main() {
     #git status
 
   else
-    echo "Du hast den Commit vergessen"
+    echo "Du hast den Commit vergessen" &> noCommit.txt
   fi
 
     # add remot

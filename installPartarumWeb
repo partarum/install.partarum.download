@@ -76,6 +76,10 @@ function main() {
 
   fi
 
+  cp bin/rsync_exclude githolder/rsync_exclude
+
+  cp bin/rsyncRep githolder/rsyncRep
+
   cd githolder || exit &> githolderDoesntExist.txt
 
   cd userRep || exit &> userRepoDoesntExist.txt
@@ -86,6 +90,8 @@ function main() {
   done
 
   git status &> userRepStatus.txt
+
+  bash rsyncRep "firstUploadWithPartarum"
 
 }
 
