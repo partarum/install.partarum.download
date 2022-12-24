@@ -66,6 +66,9 @@ function main() {
     echo "wir gehen wieder zu userRep"
     cd userRep || exit
 
+    git config user.name "Partarum"
+    git config user.email "email@partarum.de"
+
     git add --all API/
     git add --all app/
     git add --all cli/
