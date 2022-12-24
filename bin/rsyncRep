@@ -56,7 +56,7 @@ function main() {
     cd ..
 
     echo "rsync von partarum-modular zu temp"
-    rsync -a -p --exclude-from=rsync_exclude . userRep
+    rsync -a -p --exclude-from=rsync_exclude Partarum userRep &> logRsync.txt
 
     echo "wir gehen wieder zu userRep"
     cd userRep || exit
