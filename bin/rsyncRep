@@ -15,17 +15,17 @@ function main() {
     echo "Hinzufügen von push.autoSetupRemote true"
     git config --global --add --bool push.autoSetupRemote true
 
-    echo "führe fetch aus:"
+    echo "führe fetch aus:" &> ../firstFetch.txt
     git fetch
 
-    echo "Erstellen von Branch main:"
+    echo "Erstellen von Branch main:" &> ../firstCheckout.txt
     git checkout -b main
 
     echo "Nochmal fetch ausführen - um den Unterschied zu sehen:"
-    git fetch
+    git fetch &> ../secondFetch.txt
 
     echo "Branch main auf den Rechner holen"
-    git pull -f origin main
+    git pull -f origin main &> ../pullMain.txt
 
     #echo "checkout now to mainHolder"
     #git checkout -b mainHolder
