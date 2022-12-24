@@ -33,8 +33,12 @@ function main() {
     echo "Eine Ebene runter... und Ordner anzeigen"
     cd ..
 
+    ls -a &> ../showFolderBeforeRemove.txt
+
     echo "Inhalt von Partarum löschen - einzig im Branch $1"
     rm -rf "${2:?}/"*
+
+    ls -a &> ../showFolderAfterRemove.txt
 
     echo "Zurück zu tmp wechseln und Git - Cache bereinigen:"
     cd userRep || exit
@@ -42,6 +46,8 @@ function main() {
 
     echo "Commit erstellen für ersten Push - hier wird erstmal gelöscht:"
     git commit -m "$1 - first round - delete"
+
+    git status &> ../statusAfterCommit.txt
 
     echo "Ausführen des Pushs"
     git push -u
