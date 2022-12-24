@@ -33,12 +33,12 @@ function main() {
     echo "Eine Ebene runter... und Ordner anzeigen"
     cd ..
 
-    ls -a &> ../showFolderBeforeRemove.txt
+    ls -a userRep &> showFolderBeforeRemove.txt
 
     echo "Inhalt von Partarum löschen - einzig im Branch $1"
-    rm -rf "${2:?}/"*
+    rm -rf userRep/*
 
-    ls -a &> ../showFolderAfterRemove.txt
+    ls -a userRep &> showFolderAfterRemove.txt
 
     echo "Zurück zu tmp wechseln und Git - Cache bereinigen:"
     cd userRep || exit
