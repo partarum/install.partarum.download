@@ -27,43 +27,32 @@ function main() {
     echo "Branch main auf den Rechner holen"
     git pull -f origin main &> ../pullMain.txt
 
-    #echo "checkout now to mainHolder"
-    #git checkout -b mainHolder
-
-    echo "Eine Ebene runter... und Ordner anzeigen"
     cd ..
 
     ls -a userRep &> showFolderBeforeRemove.txt
 
-    echo "Inhalt von Partarum löschen - einzig im Branch $1"
     rm -rf userRep/*
 
     ls -a userRep &> showFolderAfterRemove.txt
 
-    echo "Zurück zu tmp wechseln und Git - Cache bereinigen:"
     cd userRep || exit
     git rm -rf .
 
-    echo "Commit erstellen für ersten Push - hier wird erstmal gelöscht:"
     git commit -m "$1 - first round - delete"
 
     git status &> ../statusAfterCommit.txt
 
-    echo "Ausführen des Pushs"
     git push -u
 
-    echo "Wir verlassen temp wieder"
     cd ..
 
     mkdir backup
     mv userRep/.git backup/.git
 
-    echo "rsync von partarum-modular zu temp"
     rsync -a -p --exclude-from=rsync_exclude Partarum/. userRep &> logRsync.txt
 
     mv backup/.git userRep/.git
 
-    echo "wir gehen wieder zu userRep"
     cd userRep || exit
 
     git config user.name "Partarum"
@@ -93,7 +82,6 @@ function main() {
 
     git branch &> ../finishBranch.txt
 
-    echo "Ausführen des Pushs"
     git push -u &> ../finishPush.txt
 
     git status &> ../finishStatusAfterPush.txt
