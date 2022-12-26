@@ -10,7 +10,7 @@ function main() {
   if [[ -n "$1" ]];
   then
 
-    pwd &> ../pwd.txt
+    pwd &> ../pwdInstall.txt
 
     cd userRep || exit
 
