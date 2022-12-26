@@ -10,21 +10,18 @@ function main() {
   if [[ -n "$1" ]];
   then
 
+    pwd &> ../pwd.txt
+
     cd userRep || exit
 
-    echo "Hinzufügen von push.autoSetupRemote true"
     git config --global --add --bool push.autoSetupRemote true
 
-    echo "führe fetch aus:" &> ../firstFetch.txt
-    git fetch
+    git fetch &> ../firstFetch.txt
 
-    echo "Erstellen von Branch main:" &> ../firstCheckout.txt
     git checkout -b main
 
-    echo "Nochmal fetch ausführen - um den Unterschied zu sehen:"
     git fetch &> ../secondFetch.txt
 
-    echo "Branch main auf den Rechner holen"
     git pull -f origin main &> ../pullMain.txt
 
     cd ..
