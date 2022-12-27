@@ -24,6 +24,7 @@ function main() {
 
     git pull -f origin main &> ../pullMain.txt
 
+    # back to githolder
     cd ..
 
     ls -a userRep &> showFolderBeforeRemove.txt
@@ -41,6 +42,7 @@ function main() {
 
     git push -u
 
+    # back to githolder
     cd ..
 
     mkdir backup
@@ -83,29 +85,12 @@ function main() {
 
     git status &> ../finishStatusAfterPush.txt
 
-    #echo "Zeige Ordner public/assets aus dem Script heraus:"
-    #ls -R public/assets
+    # back to githolder
+    cd ..
+    # back to .partarumGhost
+    cd ..
 
-    #echo "Hinzufügen von push.autoSetupRemote true"
-    #git config --global --add --bool push.autoSetupRemote true
-
-    #echo "Hinzufügen von push.default is current"
-    #git config --global push.default current
-
-    #echo "Folgende Branches sind gelistet:"
-    #git branch -v
-
-    #echo "zeige aktuelle Remoteverbindungen nach dem autosetup:"
-    #git remote -v
-
-    #echo "Zeige Status:"
-    #git status
-
-    #echo "Ausführen des Pushs"
-    #git push -u
-
-    #echo "Zeige Status:"
-    #git status
+    rsync -a baseHolder/. gitHolder/userRep
 
   else
     echo "Du hast den Commit vergessen" &> noCommit.txt
