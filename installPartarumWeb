@@ -26,9 +26,9 @@ function checkRoot() {
 
 function loadPartarum() {
 
-  [[ ! -d githolder ]] && mkdir githolder
+  [[ ! -d githolder ]] && mkdir gitHolder
 
-  git clone https://github.com/partarum/partarum.git githolder/Partarum
+  git clone https://github.com/partarum/partarum.git gitHolder/Partarum
 }
 
 function loadSystem() {
@@ -76,11 +76,11 @@ function main() {
 
   fi
 
-  cp bin/rsync_exclude githolder/rsync_exclude
+  cp bin/rsync_exclude gitHolder/rsync_exclude
 
-  cp bin/rsyncRep githolder/rsyncRep
+  cp bin/rsyncRep gitHolder/rsyncRep
 
-  cd githolder || exit &> githolderDoesntExist.txt
+  cd gitHolder || exit &> gitHolderDoesntExist.txt
 
   #cd userRep || exit &> userRepoDoesntExist.txt
 
