@@ -3,8 +3,17 @@
 function main() {
 
   pwd &> updatePwd.txt
+  # ausführende Pfad von wo aus gearbeitet wird == ls
 
-  ls -a &> updateLs.txt
+  cd gitHolder || exit
+
+  rm -rf Partarum
+  rm -rf userRep
+
+  git clone https://github.com/partarum/partarum.git Partarum
+
+  git clone "$(cat ../userRepURL.txt)" userRep
+
 }
 
 main "$@"
