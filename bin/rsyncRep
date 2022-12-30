@@ -104,13 +104,13 @@ function main() {
 
     rsync -a .partarumGhost/. .partarumGhost/gitHolder/userRep/.partarumGhost
 
-    #cd .partarumGhost/gitHolder/userRep || exit
+    cd .partarumGhost/gitHolder/userRep || exit
 
-    #git add .partarumGhost
+    git add .partarumGhost/
 
-    #git commit -m "add partarumGhost"
+    git commit -m "add partarumGhost"
 
-    #git push -u
+    git push -u
 
 
     #for file in .* *;
