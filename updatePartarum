@@ -16,7 +16,7 @@ function main() {
 
   git clone "$(cat ../userRepURL.txt)" userRep
 
-  rsync -a Partarum userRep &> ../log/update/rsync.txt
+  rsync -anvP Partarum/ userRep &> ../log/update/rsync.txt
 
   cd userRep || exit
 
