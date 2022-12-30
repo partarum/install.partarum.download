@@ -33,6 +33,11 @@ function main() {
 
   git status &> ../../log/update/statusAfterPush.txt
 
+  cd ..
+
+  rm -rf Partarum
+  rm -rf userRep
+
 }
 
 main "$@"
