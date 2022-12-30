@@ -2,6 +2,8 @@
 
 function main() {
 
+  mkdir -p log/update
+
   pwd &> updatePwd.txt
   # ausführende Pfad von wo aus gearbeitet wird == ls
 
@@ -13,6 +15,8 @@ function main() {
   git clone https://github.com/partarum/partarum.git Partarum
 
   git clone "$(cat ../userRepURL.txt)" userRep
+
+  rsync -a Partarum userRep &> log/update/rsync.txt
 
 }
 
