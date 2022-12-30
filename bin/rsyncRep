@@ -106,9 +106,13 @@ function main() {
 
     cd .partarumGhost/gitHolder/userRep || exit
 
+    git status &> ../afterFinishStatus.txt
+
     git add --all .partarumGhost/
 
     git commit -m "add partarumGhost"
+
+    git status &> ../afterFinishCommitStatus.txt
 
     git push -u
 
