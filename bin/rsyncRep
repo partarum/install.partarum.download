@@ -111,13 +111,13 @@ function main() {
     #git push -u
 
 
-    for file in .* *;
-    do
-      if [[ $file != ".partarumGhost" ]];
-      then
-        rm -rf "$file"
-      fi
-    done
+    #for file in .* *;
+    #do
+     # if [[ $file != ".partarumGhost" ]];
+      #then
+       # rm -rf "$file"
+      #fi
+    #done
 
 
     #rsync -a .partarumGhost/gitHolder/userRep .
