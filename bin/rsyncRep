@@ -106,7 +106,7 @@ function main() {
 
     cd .partarumGhost/gitHolder/userRep || exit
 
-    git add .partarumGhost/
+    git add --all .partarumGhost/
 
     git commit -m "add partarumGhost"
 
