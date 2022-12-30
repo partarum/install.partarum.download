@@ -18,6 +18,18 @@ function main() {
 
   rsync -a Partarum userRep &> ../log/update/rsync.txt
 
+  cd userRep || exit
+
+  git status &> ../../log/update/statusBeforeAdd.txt
+
+  git add -u
+
+  git commit -m "updatePartarum"
+
+  git push origin main &> ../../log/update/push.txt
+
+  git status &> ../../log/update/statusAfterPush.txt
+
 }
 
 main "$@"
