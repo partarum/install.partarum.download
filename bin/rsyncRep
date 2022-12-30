@@ -114,7 +114,9 @@ function main() {
 
     git status &> ../afterFinishCommitStatus.txt
 
-    git push -u
+    git push -u &> ../afterFinishPush.txt
+
+    git status &> ../afterFinishPushStatus.txt
 
 
     #for file in .* *;
