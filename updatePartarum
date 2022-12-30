@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function main() {
+
+  pwd &> updatePwd.txt
+
+  ls -a &> updateLs.txt
+}
+
+main "$@"
