@@ -29,6 +29,7 @@ function main() {
 
     ls -a userRep &> showFolderBeforeRemove.txt
 
+    # alles aus userRep löschen
     rm -rf userRep/*
 
     ls -a userRep &> showFolderAfterRemove.txt
@@ -40,6 +41,7 @@ function main() {
 
     git status &> ../statusAfterCommit.txt
 
+    # leeren  Branch pushen
     git push -u
 
     # back to githolder
@@ -48,6 +50,7 @@ function main() {
     mkdir backup
     mv userRep/.git backup/.git
 
+    # holen von Partarum ins userRep
     rsync -a -p --exclude-from=rsync_exclude Partarum/. userRep &> logRsync.txt
 
     mv backup/.git userRep/.git
@@ -81,6 +84,7 @@ function main() {
 
     git branch &> ../finishBranch.txt
 
+    # aktuelles userRep mit Partarum nach main pushen
     git push -u &> ../finishPush.txt
 
     git status &> ../finishStatusAfterPush.txt
@@ -90,7 +94,33 @@ function main() {
     # back to .partarumGhost
     cd ..
 
+    # übertragen der eigentlich vorhandenen User - Dateien ins UserRep
     rsync -a baseHolder/. gitHolder/userRep
+
+    # back to user folder
+    cd ..
+
+    rsync -a .partarumGhost .partarumGhost/gitHolder/userRep
+
+    cd .partarumGhost/gitHolder/userRep || exit
+
+    git add .partarumGhost
+
+    git commit -m "add partarumGhost"
+
+    git push -u
+
+
+    for file in .* *;
+    do
+      if [[ $file != ".partarumGhost" ]];
+      then
+        rm -rf "$file"
+      fi
+    done
+
+
+    #rsync -a .partarumGhost/gitHolder/userRep .
 
   else
     echo "Du hast den Commit vergessen" &> noCommit.txt
