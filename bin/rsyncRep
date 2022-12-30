@@ -106,6 +106,8 @@ function main() {
 
     cd .partarumGhost/gitHolder/userRep || exit
 
+    rm -rf .partarumGhost/.git
+
     git status &> ../afterFinishStatus.txt
 
     git add --all .partarumGhost/
