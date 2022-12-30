@@ -100,7 +100,7 @@ function main() {
     # back to user folder
     cd ..
 
-    #rsync -a .partarumGhost .partarumGhost/gitHolder/userRep
+    cp -a .partarumGhost .partarumGhost/gitHolder/userRep
 
     #cd .partarumGhost/gitHolder/userRep || exit
 
