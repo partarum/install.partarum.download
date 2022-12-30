@@ -20,6 +20,9 @@ function main() {
 
   cd userRep || exit
 
+  git config user.name "Partarum"
+  git config user.email "email@partarum.de"
+
   git status &> ../../log/update/statusBeforeAdd.txt
 
   git add -u
