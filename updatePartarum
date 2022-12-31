@@ -12,11 +12,49 @@ function main() {
   rm -rf Partarum
   rm -rf userRep
 
-  git clone https://github.com/partarum/partarum.git Partarum
-
   git clone "$(cat ../userRepURL.txt)" userRep
 
-  rsync -anvP Partarum/ userRep &> ../log/update/rsync.txt
+  git clone https://github.com/partarum/partarum.git Partarum
+
+  cd Partarum || exit
+
+  local commitID="$(git rev-parse HEAD)"
+
+  mkdir -p ../../log/update/"$commitID"
+
+  git show --stat --oneline "$(git rev-parse HEAD)" | grep "|" &> ../showDiffGrep.txt
+
+  local splitString=""
+
+  local line=""
+
+  local changedFiles=()
+
+  local dirnameOfSplitString=""
+
+  while IFS= read -r line;
+  do
+    echo "$line"
+
+    splitString=$(echo "$line" | cut -d"|" -f1 | xargs)
+
+    changedFiles+=("$splitString")
+
+    dirnameOfSplitString=$(dirname "$splitString")
+
+    mkdir -p ../../log/update/"$commitID"/"$dirnameOfSplitString"
+
+    cp -r "$splitString" ../../log/update/"$commitID"/"$splitString"
+
+    cp "$splitString" ../userRep/"$splitString"
+
+  done < ../showDiffGrep.txt
+
+  git diff --name-only HEAD &> ../showDiffHead.txt
+
+  git diff "$(git rev-parse HEAD)" &> ../showDiffCommit.txt
+
+  cd ..
 
   cd userRep || exit
 
@@ -27,7 +65,7 @@ function main() {
 
   git add -u
 
-  git commit -m "updatePartarum"
+  git commit -m "updatePartarum-$commitID"
 
   git push origin main &> ../../log/update/push.txt
 
