@@ -1,0 +1,11 @@
+DirectoryIndex index.php
+RewriteEngine On
+
+RewriteRule (^|/).API(/|$) - [F]
+RewriteRule (^|/)bin(/|$) - [F]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{HTTP_HOST} ^(install.)?partarum.download$
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule  ^(.*)?$ index.php [QSA]

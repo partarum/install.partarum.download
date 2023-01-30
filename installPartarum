@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# Brief description of your script
+# Copyright 2022 bombisa
+
+
+SCRIPT_RUNNER_AUTO=0
+SCRIPT_RUNNER_MANUEL=1
+SCRIPT_RUNNER="$SCRIPT_RUNNER_AUTO"
+
+SYSTEM_BLANK=0
+SYSTEM_PLESK=1
+SYSTEM_KEYHELP=2
+USER_SYSTEM="$SYSTEM_BLANK"
+
+USER_TOKEN=""
+
+function base() {
+
+  if [[ ! -d "$DIR" ]]; then
+    DIR="$PWD"
+  fi
+
+  if [ -n "$PS1" ]; then
+    SCRIPT_RUNNER="$SCRIPT_RUNNER_MANUEL"
+  fi
+
+}
+
+function loadPartarum() {
+
+  if [[ "$USER_TOKEN" == "" ]];
+  then
+    echo "Du hast den Token vergessen"
+    echo "-------------------"
+    if [[ -f "./installPartarum" ]];
+    then
+      echo "Bitte führe die installPartarum mit deinem Token als Argument aus"
+    else
+      echo "Bitte wiederhole den Aufruf mit curl und gebe den Token als Argument mit"
+    fi
+  else
+
+    wget https://install.partarum.download/"$USER_TOKEN"/"$USER_SYSTEM"
+  fi
+
+}
+
+function main() {
+
+  base
+
+  case "$1" in
+    plesk|Plesk|-p)
+      USER_SYSTEM="$SYSTEM_PLESK"
+      ;;
+    keyhelp|Keyhelp|-k)
+      USER_SYSTEM="$SYSTEM_KEYHELP"
+      ;;
+    *)
+      USER_SYSTEM="$SYSTEM_BLANK"
+      ;;
+  esac
+
+  if [[ "$2" != "" ]];
+  then
+    USER_TOKEN="$2"
+  fi
+
+  loadPartarum
+}
+
+main "$@"
