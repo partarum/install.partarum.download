@@ -1,8 +1,8 @@
 <?php
 
 define("URI", explode("/",$_SERVER["REQUEST_URI"]));
-define("USER_SYSTEM", $_POST["system"] || null);
-define("USER_TOKEN", $_POST["token"] || null);
+define("USER_SYSTEM", $_POST["system"] ?? null);
+define("USER_TOKEN", $_POST["token"] ?? null);
 
 enum System {
 
@@ -33,8 +33,8 @@ class Install {
     public static function sendFile(): void {
 
         $file = (Token::check(USER_TOKEN) !== NULL) ? match(USER_SYSTEM){
-          "Plesk", "Keyhelp" => InstallType::WEB->getFile(),
-          "Blank" => InstallType::SERVER->getFile(),
+          "PLESK", "KEYHELP" => InstallType::WEB->getFile(),
+          "BLANK" => InstallType::SERVER->getFile(),
           default => InstallType::LOADER->getFile()
         } : InstallType::LOADER->getFile();
 

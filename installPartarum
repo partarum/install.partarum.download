@@ -8,12 +8,22 @@ SCRIPT_RUNNER_AUTO=0
 SCRIPT_RUNNER_MANUEL=1
 SCRIPT_RUNNER="$SCRIPT_RUNNER_AUTO"
 
+SYSTEM_NAMES=(
+  "blank" "Blank" "BLANK" "b"
+  "plesk" "Plesk" "PLESK" "p"
+  "keyhelp" "Keyhelp" "KEYHELP" "k"
+)
+
+
 SYSTEM_BLANK="BLANK"
 SYSTEM_PLESK="PLESK"
 SYSTEM_KEYHELP="KEYHELP"
 USER_SYSTEM="$SYSTEM_BLANK"
 
 USER_TOKEN=""
+
+SYSTEM_CHECK=0
+TOKEN_CHECK=0
 
 function base() {
 
@@ -43,31 +53,69 @@ function loadPartarum() {
 
     echo "$USER_TOKEN"
     echo "$USER_SYSTEM"
-    #curl -X POST -d "token=$USER_TOKEN&system=$USER_SYSTEM" https://install.partarum.download
+    curl -X POST -d "token=$USER_TOKEN&system=$USER_SYSTEM" https://install.partarum.download
   fi
+}
 
+function checkSystem() {
+
+  SYSTEM_CHECK=0
+
+  for i in "${SYSTEM_NAMES[@]}";
+    do
+      if [[ "$i" == "$1" ]];
+      then
+        SYSTEM_CHECK=1
+
+        case "$1" in
+        plesk|Plesk|-p)
+          USER_SYSTEM="$SYSTEM_PLESK"
+          ;;
+        keyhelp|Keyhelp|-k)
+          USER_SYSTEM="$SYSTEM_KEYHELP"
+          ;;
+        *)
+          USER_SYSTEM="$SYSTEM_BLANK"
+          ;;
+        esac
+      fi
+    done
 }
 
 function main() {
 
   base
 
-  case "$1" in
-    plesk|Plesk|-p)
-      USER_SYSTEM="$SYSTEM_PLESK"
-      ;;
-    keyhelp|Keyhelp|-k)
-      USER_SYSTEM="$SYSTEM_KEYHELP"
-      ;;
-    *)
-      USER_SYSTEM="$SYSTEM_BLANK"
-      ;;
-  esac
+  #echo "$0"
+  #echo "$@"
+  echo "$#"
 
-  if [[ "$2" != "" ]];
-  then
-    USER_TOKEN="$2"
-  fi
+  case "$#" in
+  1)
+
+    checkSystem "$1"
+
+    echo "$SYSTEM_CHECK"
+
+    if [[ "$SYSTEM_CHECK" -eq 0 ]];
+    then
+      USER_TOKEN="$1"
+    fi
+    ;;
+  2)
+    checkSystem "$1"
+
+    echo "$SYSTEM_CHECK"
+
+    if [[ "$SYSTEM_CHECK" -eq 1 ]];
+    then
+      USER_TOKEN="$2"
+    else
+      echo "Bitte wiederhole den Vorgang mit einer entsprechenden Systemoption als Argument 1"
+      exit 1
+    fi
+    ;;
+  esac
 
   loadPartarum
 }
