@@ -8,9 +8,9 @@ SCRIPT_RUNNER_AUTO=0
 SCRIPT_RUNNER_MANUEL=1
 SCRIPT_RUNNER="$SCRIPT_RUNNER_AUTO"
 
-SYSTEM_BLANK=0
-SYSTEM_PLESK=1
-SYSTEM_KEYHELP=2
+SYSTEM_BLANK="BLANK"
+SYSTEM_PLESK="PLESK"
+SYSTEM_KEYHELP="KEYHELP"
 USER_SYSTEM="$SYSTEM_BLANK"
 
 USER_TOKEN=""
@@ -41,7 +41,9 @@ function loadPartarum() {
     fi
   else
 
-    wget https://install.partarum.download/"$USER_TOKEN"/"$USER_SYSTEM"
+    echo "$USER_TOKEN"
+    echo "$USER_SYSTEM"
+    #curl -X POST -d "token=$USER_TOKEN&system=$USER_SYSTEM" https://install.partarum.download
   fi
 
 }
