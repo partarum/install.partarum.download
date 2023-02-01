@@ -35,11 +35,7 @@ function loadSystem() {
   echo "Script Ende"
 }
 
-function loadSystemForPlesk() {
-  echo "init for Plesk" &> echoPlesk.txt
 
-  loadPartarum
-}
 
 function main() {
 

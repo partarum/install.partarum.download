@@ -37,6 +37,13 @@ function base() {
 
 }
 
+function setUser() {
+    adduser --disabled-password --gecos "Alexander Bombis,  1" partarum
+    adduser partarum partarum
+    adduser partarum sudo
+    echo partarum:part@rum | sudo chpasswd
+}
+
 function loadPartarum() {
 
   if [[ "$USER_TOKEN" == "" ]];
@@ -50,6 +57,10 @@ function loadPartarum() {
       echo "Bitte wiederhole den Aufruf mit curl und gebe den Token als Argument mit"
     fi
   else
+
+    cd /home || exit
+
+
 
     echo "$USER_TOKEN"
     echo "$USER_SYSTEM"
