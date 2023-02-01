@@ -21,6 +21,7 @@ SYSTEM_KEYHELP="KEYHELP"
 USER_SYSTEM="$SYSTEM_BLANK"
 
 USER_TOKEN=""
+INSTALL_TOKEN=""
 
 SYSTEM_CHECK=0
 TOKEN_CHECK=0
@@ -37,13 +38,6 @@ function base() {
 
 }
 
-function setUser() {
-    adduser --disabled-password --gecos "Alexander Bombis,  1" partarum
-    adduser partarum partarum
-    adduser partarum sudo
-    echo partarum:part@rum | sudo chpasswd
-}
-
 function loadPartarum() {
 
   if [[ "$USER_TOKEN" == "" ]];
@@ -57,14 +51,9 @@ function loadPartarum() {
       echo "Bitte wiederhole den Aufruf mit curl und gebe den Token als Argument mit"
     fi
   else
-
-    cd /home || exit
-
-
-
     echo "$USER_TOKEN"
     echo "$USER_SYSTEM"
-    curl -X POST -d "token=$USER_TOKEN&system=$USER_SYSTEM" https://install.partarum.download
+    curl -X POST -d "token=$USER_TOKEN&system=$USER_SYSTEM" https://install.partarum.download | bash -s "$INSTALL_TOKEN"
   fi
 }
 
@@ -101,26 +90,31 @@ function main() {
   #echo "$@"
   echo "$#"
 
+  checkSystem "$1"
+
   case "$#" in
   1)
-
-    checkSystem "$1"
-
-    echo "$SYSTEM_CHECK"
-
     if [[ "$SYSTEM_CHECK" -eq 0 ]];
     then
       USER_TOKEN="$1"
+      INSTALL_TOKEN="$1"
     fi
     ;;
   2)
-    checkSystem "$1"
-
-    echo "$SYSTEM_CHECK"
-
     if [[ "$SYSTEM_CHECK" -eq 1 ]];
     then
       USER_TOKEN="$2"
+      INSTALL_TOKEN="$2"
+    else
+      echo "Bitte wiederhole den Vorgang mit einer entsprechenden Systemoption als Argument 1"
+      exit 1
+    fi
+    ;;
+  3)
+    if [[ "$SYSTEM_CHECK" -eq 1 ]];
+    then
+      USER_TOKEN="$2"
+      INSTALL_TOKEN="$3"
     else
       echo "Bitte wiederhole den Vorgang mit einer entsprechenden Systemoption als Argument 1"
       exit 1

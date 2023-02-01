@@ -3,91 +3,54 @@
 # Brief description of your script
 # Copyright 2022 bombisa
 
-function base() {
+# Was passiert jetzt?
+# Das Script ist verantwortlich dass das private Repository geclont wird - d.h. es ist nur für Leute zugänglich die auch einen Token auf dieses Projekt haben
+# Das Script benötigt su - da sudo auf unseren eigenen Servern von Haus aus aus ist
 
-  if [[ ! -d "$DIR" ]]; then
-    DIR="$PWD"
-  fi
+SUDO_ACTIVE=1
+SUDO="sudo"
 
-  source API/helper.sh
-}
+INSTALL_TOKEN=0
 
-function checkRoot() {
+function initBase() {
 
-  if [[ "$(is_user_root)" == 1 ]];
+  # test if sudo active || installed
+  if [[ $(which sudo) == "" ]];
   then
-    echo "is_root"
-   return 1;
-  else
-    echo "is_not_root"
-   return 0;
+    SUDO_ACTIVE=0
+    SUDO=""
   fi
+
+  [[ $(which git) == "" ]] && "$SUDO" apt install git
+
 }
 
 function loadPartarum() {
 
   [[ ! -d githolder ]] && mkdir gitHolder
 
-  git clone https://github.com/partarum/partarum.git gitHolder/Partarum
+  local oauth="https://oauth2:"
+
+  local github="@github.com/partarum/server.partarum.download.git"
+
+  local link="${oauth}${INSTALL_TOKEN}${github}"
+
+  git clone "$link" gitHolder/installPartarumServer
 }
-
-function loadSystem() {
-  echo "Script Ende"
-}
-
-
 
 function main() {
 
-  echo "$1" &> arg.txt
+  [[ "$1" != "" ]] && INSTALL_TOKEN="$1"
 
-  if [[ $1 -eq $((0x0001)) ]];
-  then
-    loadSystemForPlesk
-  else
+  initBase
 
-    base;
-    checkRoot;
+  cd /home || exit
 
-   # echo "main"
-    test=$?
+  mkdir partarum
 
-    if [[ $test -eq 1 ]];
-    then
-      echo "Und nun geht es weiter"
-      #cp PartarumSpace /usr/local/bin
+  cd partarum || exit
 
-      # root  - installieren von:
-      #         - git
-      #         - composer
-
-    loadSystem
-
-
-    else
-      echo "Bitte führe den ersten Schritt als Root aus."
-
-      sudo bash installPartarumWeb
-    fi
-
-  fi
-
-  cp bin/rsync_exclude gitHolder/rsync_exclude
-
-  cp bin/rsyncRep gitHolder/rsyncRep
-
-  cd gitHolder || exit &> gitHolderDoesntExist.txt
-
-  #cd userRep || exit &> userRepoDoesntExist.txt
-
-  #for file in *
-  #do
-   # [[ $file != ".git" ]] && rm -rf "$file"
-  #done
-
-  #git status &> userRepStatus.txt
-
-  bash rsyncRep "firstUploadWithPartarum"
+  loadPartarum
 
 }
 
