@@ -36,21 +36,34 @@ function loadPartarum() {
   local link="${oauth}${INSTALL_TOKEN}${github}"
 
   git clone "$link" gitHolder/installPartarumServer
+
+  cd gitHolder/installPartarumServer || exit
+
+  bash installPartarumServer
+
 }
 
 function main() {
 
-  [[ "$1" != "" ]] && INSTALL_TOKEN="$1"
+  echo "$1"
 
-  initBase
+  if [[ "$1" != "" ]];
+  then
+    INSTALL_TOKEN="$1"
 
-  cd /home || exit
+    initBase
 
-  mkdir partarum
+    cd /home || exit
 
-  cd partarum || exit
+    mkdir partarumTemp
 
-  loadPartarum
+    cd partarumTemp || exit
+
+    loadPartarum
+
+  else
+    echo "Bitte gib den Installationsberechtigungstoken mit."
+  fi
 
 }
 

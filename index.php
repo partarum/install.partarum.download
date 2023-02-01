@@ -22,7 +22,7 @@ enum InstallType {
     public function getFile(): string {
         return match($this){
             InstallType::LOADER => "installPartarum",
-            InstallType::SERVER => "testsh_server",
+            InstallType::SERVER => "installPartarumServer",
             InstallType::WEB => "testsh_web"
         };
     }
